@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Send Location via Email</title>
+</head>
+<body>
+  <h2>Click the button to send your location</h2>
+  <button onclick="getLocation()">Send My Location</button>
+
+  <form id="locationForm" action="https://formsubmit.io/send/webahmadmustafa@gmail.com" method="POST" style="display: none;">
+    <input type="hidden" name="latitude" id="latitude">
+    <input type="hidden" name="longitude" id="longitude">
+    <!-- Optional: Redirect URL after submission -->
+    <!-- <input type="hidden" name="_redirect" value="https://thankyoupage.com"> -->
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendLocation, showError);
+      } else {
+        document.getElementById("status").innerText = "Geolocation is not supported.";
+      }
+    }
+
+    function sendLocation(position) {
+      document.getElementById("latitude").value = position.coords.latitude;
+      document.getElementById("longitude").value = position.coords.longitude;
+      document.getElementById("locationForm").submit();
+      document.getElementById("status").innerText = "Sending location...";
+    }
+
+    function showError(error) {
+      document.getElementById("status").innerText = "Error getting location: " + error.message;
+    }
+  </script>
+</body>
+</html>
